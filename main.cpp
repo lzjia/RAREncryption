@@ -12,7 +12,7 @@ typedef unsigned char byte;
 typedef unsigned int byte4;
 #define NUM_THREADS 5
 
-//hash_func.rar
+
 byte4 EncryptionFlags[4];
 byte CRC[4],TitleSize[1],KDFCount[1],salt[16],PswCheck[8],checksum[4];
 int C;
@@ -48,7 +48,6 @@ void InitPwdCheck()
 	}
 	PswCheckTrue[0]=To4byte(temp0,4);
 	PswCheckTrue[1]=To4byte(temp1,4);
-	//printf("%X %X\n",PswCheckTrue[0],PswCheckTrue[1]);
 }
 
 void EncryptedPwd()
@@ -77,13 +76,11 @@ int PBKDF2(int pwdNum)
 	}
 	xcheck_val[0]=out[0]^out[2]^out[4]^out[6];
 	xcheck_val[1]=out[1]^out[3]^out[5]^out[7];
-	//printf("%d \n" ,checkPwd());
 	if(!checkPwd()){
 		printf("Find PassWord: %04u\n",pwdNum);
 		return 1;
 	}
 	return 0;
-	//printf("%X %X\n",xcheck_val[0],xcheck_val[1]);
 }
 
 
@@ -160,7 +157,6 @@ void ReadRar()
 	fread(checksum,sizeof(byte),4,rarFile);
 	int tmp=To4byte(KDFCount,1);
 	C= pow(2.0,tmp)+32;
-	//printf("%d\n",C);
 	To4byte4(salt,Salt);
 	for(byte4 i=0;i<4;i++){
 		SaltTrue[i]=Salt[i];
@@ -170,7 +166,6 @@ void ReadRar()
 	SaltTrue[4]=1;
 	InitPwd();
 	InitPwdCheck();
-	//printf("%0X\n",*(MyPwd[1]+2));
 }
 
 
@@ -178,21 +173,4 @@ int main(void)
 {
 	ReadRar();
 	EncryptedPwd();
-	//PBKDF2(0001);
-	//for (int i=0;i<)
-	/*fread(initializationVector,sizeof(byte),16,rarFile);
-	printf("initializationVector: \n");
-	*/
-	//To4byte4(salt,Salt);
-	//for(int i=0;i<4;i++){
-	//	printf("%04X ",Salt[i]);
-	//}
-	//printf("\n");
-	//kdf = To4byte4(KDFCount,1);
-	//printf("%02X\n",kdf);
-	//for(int i=0;i<8;i++){
-	//	printf("%02X ",PswCheck[i]);
-	//	if((i+1)%2==0) printf(" ");
-	//}
-	//printf("\n");
 }
